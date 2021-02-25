@@ -67,7 +67,8 @@ index = int(random.uniform(0,24))
 msg = "Congrats! You've crossed the second gate. This is the path for next Puzzle. Enjoy the music there.\n"+destPath[index]
 
 
-#creating random files where path for next puzzle is stored  
+#creating random files where path for next puzzle is stored
+path='/var/ftp/patgarret' 
 filename = hashlib.sha256(path.encode()).hexdigest()
 tmp="a"
 for i in range(0,len(msg)):
