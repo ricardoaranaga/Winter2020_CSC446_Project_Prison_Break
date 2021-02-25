@@ -77,9 +77,9 @@ def callbackFunction(connection_socket,address,mesg):
         covert_bin += format(ord(msg),'#010b')[2:]
     #send covert message with time gap based on the 1 or 0 value
     for msg in Msg:
-        if n==0:
-            msg = "Congrats! You just breaked the questions. Now decode the Timing covert Message\n\n"+msg
-            n=1
+        #if n==0:
+        #    msg = "Congrats! You just breaked the questions. Now decode the Timing covert Message\n\n"+msg
+        #    n=1
         try:
             send_message(connection_socket, msg.encode())
         except:
