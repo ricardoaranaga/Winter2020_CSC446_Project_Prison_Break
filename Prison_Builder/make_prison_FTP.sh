@@ -22,40 +22,25 @@ sudo systemctl enable vsftpd
 groupadd prisoners
 adduser patgarret
 adduser patgarret prisoners
-sudo mkdir /home/testuser
+sudo mkdir /home/patgarret
 echo Added prisoners group and patgarret user
+
+# change home path
+mount --bind /var/home/patgarret /var/ftp/patgarret/
+usermod -d /var/ftp/patgarret/ patgarret
 
 # allow incomming connections
 sudo ufw allow 20/tcp
 sudo ufw allow 21/tcp
 
-files=('/var/prison/etc/passwd' '/var/prison/etc/group')
-for file in ${files[@]}; do
-sed -i '/root\|prisoners\|billythekid/!d' $file
-echo $file modified
-done
+# configuring the ftp server
+touch /etc/vsftpd.chroot_list 
+echo chroot_local_user=YES >> /etc/vsftpd.conf
+echo chroot_list_enable=YES >> /etc/vsftpd.conf
+echo allow_writeable_chroot=YES >> /etc/vsftpd.conf
+echo chroot_list_file=/etc/vsftpd.chroot_list >> /etc/vsftpd.conf
+systemctl restart vsftpd
+systemctl restart vsftpd.service
 
-mkdir /var/prison/home /var/prison/home/billythekid
-cp -r /etc/skel/ /var/prison/home/billythekid
-mv /var/prison/home/billythekid/skel/.* /var/prison/home/billythekid
-rm -rf /var/prison/home/billythekid/skel/
 
-cp .bashrc /var/prison/home/billythekid/
-chown -R billythekid:billythekid /var/prison/home/billythekid
-
-cp -r /lib/* /var/prison/lib
-
-source ~/.bashrc
-
-echo PRISON BREAK CREATED
-
-apt install openssh-server
-
-echo Match group prisoners >> /etc/ssh/sshd_config
-echo -e '\t' ChrootDirectory /var/prison/ >> /etc/ssh/sshd_config
-echo -e '\t' X11Forwarding no >> /etc/ssh/sshd_config
-echo -e '\t' AllowTcpForwarding no >> /etc/ssh/sshd_config
-
-service ssh restart
-
-echo SERVER READY FOR JAILED CONNECTIONS 
+echo PATGARRET PRISON CREATED
