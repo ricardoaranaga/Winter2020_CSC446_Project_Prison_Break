@@ -99,7 +99,7 @@ server_socket = create_socket(int(server_port))
 print("The server is ready to receive \n")
 
 if notDefined:
-    covert_msg = "You have escaped the first gate. Now, Connect to SSH server on III.JJJ.KKK.LLL port ABCD, user: \"billythekid\",pass: \"PatGarertt\" or maybe backwards. Be careful with wrong doors. You will be trapped."
+    covert_msg = "You have escaped the first gate. Now, Connect to SSH server on III.JJJ.KKK.LLL port ABCD, user: \"billythekid\",pass: \"PatGarertt\" or the other way around. Be careful with wrong doors. You will be trapped."
     Msg = "Once one of the top 15 fugitives wanted by the United States’ Marshals, Richard Lee McNair is currently serving a sentence for two terms of life imprisonment in Florence, Colorado. \
     After being caught when he escaped from prison the first two times, McNair etched out a plan for his third escape. \
     McNair was imprisoned at a United States Penitentiary in Pollock, Louisiana. His prison duties involved mending the old and torn mailbags in the manufacturing area. \
@@ -114,7 +114,7 @@ if notDefined:
     but wasn’t given an accurate description or a new photograph.THE END......................................PATIENCE IS A VIRTUE................................. FTP or SSH"
 while(True):
     connection_socket, address = accept_client(server_socket)
-    connection_socket.settimeout(30)
+    connection_socket.settimeout(60)
 
     t1 = Thread(target=callbackFunction,args=(connection_socket,address,Msg,)).start()
         
