@@ -54,7 +54,6 @@ def send_recv_message(client_socket, buffer_size):
 
 print("[connect to the chat server]")
 client_socket = establish_connection("192.168.0.11",12003)    
-#client_socket = establish_connection("138.47.98.190",31337)
 print("[connection established]")
 
 #receive messages from the Server here
@@ -62,3 +61,6 @@ for i in range(1,4):
     print(client_socket.recv(2048).decode())
     client_socket.send(input().encode())
 send_recv_message(client_socket, 2048)
+
+
+

@@ -27,28 +27,49 @@ def send_message(connection_socket, message):
     return
 
 def callbackFunction(connection_socket,address,mesg):
-    if address[0] in blacklist:
+    if address[0] not in blacklist:
+        blacklist[address[0]] = 1
+    if blacklist[address[0]] == 6:
         send_message(connection_socket, "Your IP is locked.Try from different IP".encode())
-        sys.exit()        
+        sys.exit()
+    elif blacklist[address[0]] < 6:
+        blacklist[address[0]] += 1
     header = "Answer these questions and get your access to Timing chat messages\n"
-    questions = {"How many episodes of Prison break are telecasted?":"60", "Who is the father of Vigenere or named after?":"Gourd", "What is the name of this course?":"ACT"}
+    questions = {"How many episodes of Prison break are telecasted?":"60",\
+                 "Who is the father of Vigenere or named after?":"GOURD", \
+                 "What is the name of this course?":"ACT", \
+                 "Everyone in the world needs it, but they usually give it without taking it. What is it?":"ADVICE",\
+                 " What belongs to you but gets used by everyone else more than you?": "NAME", \
+                 "I’m so fragile that if you say my name, you’ll break me. What am I?":"SILENCE",\
+                 "What gets bigger and bigger the more you take away from it?":"HOLE",\
+                 " If I have it, I don’t share it. If I share it, I don’t have it. What is it?":"SECRET",\
+                 "The only thing that flies without wings? ":"TIME",\
+                 "What goes up and never down?":"AGE",\
+                 "Football player Phil Robertson graduated from?" : ["LOUISIANA TECH","LA TECH","LOUISIANA TECH UNIVERSITY"]
+                 }
     count = 1
-    for key in questions:
-        time.sleep(3)
-        if count ==1:
-            send_message(connection_socket, (header+key).encode())
-            count=0
-        else:
-            send_message(connection_socket, (key).encode())
-        #time.sleep(10)
-        try:
-            if connection_socket.recv(2048).decode() not in questions[key]:
-                send_message(connection_socket, "Your IP is locked.Try from different IP".encode())
-                blacklist.append(address[0])
-        except Exception as e:
-            blacklist.append(address[0])
-            send_message(connection_socket, "Your IP is locked.Try from different IP".encode())
-            sys.exit()
+    try:
+        for key, value in sorted(questions.items(), key=lambda x: random.random()):
+            time.sleep(3)        
+            if count == 4:
+                #send_message(connection_socket, "Congrats! You just breaked the questions".encode())
+                break
+            time.sleep(3)
+            if count ==1:
+                send_message(connection_socket, (header+key).encode())
+            else:
+                send_message(connection_socket, (key).encode())
+            count+=1
+            
+            try:
+                if connection_socket.recv(2048).upper().decode() not in questions[key]:
+                    send_message(connection_socket, "Wrong answer!!!".encode())
+            except Exception as e:
+                send_message(connection_socket, "Time Out! ! ! Better Luck next time".encode())
+                sys.exit()
+            
+    except Exception as e:
+        sys.exit()
     n = 0
     covert_bin = ""
     #convert covert message to binary value
@@ -56,6 +77,9 @@ def callbackFunction(connection_socket,address,mesg):
         covert_bin += format(ord(msg),'#010b')[2:]
     #send covert message with time gap based on the 1 or 0 value
     for msg in Msg:
+        if n==0:
+            msg = "Congrats! You just breaked the questions. Now decode the Timing covert Message\n\n"+msg
+            n=1
         try:
             send_message(connection_socket, msg.encode())
         except:
@@ -69,7 +93,7 @@ def callbackFunction(connection_socket,address,mesg):
     send_message(connection_socket, "EOF".encode())
     connection_socket.close()
 
-blacklist = []
+blacklist = {}
 server_port = 12003
 server_socket = create_socket(int(server_port))
 print("The server is ready to receive \n")
