@@ -62,6 +62,3 @@ for i in range(1,4):
     print(client_socket.recv(2048).decode())
     client_socket.send(input().encode())
 send_recv_message(client_socket, 2048)
-
-
-
