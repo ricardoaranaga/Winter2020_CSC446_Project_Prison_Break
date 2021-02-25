@@ -1,41 +1,57 @@
-import os
-import stat
-def oct_to_str(octal):
-     permission=["---","--x","-w-","-wx","r--","r-x","rw-","rwx"]
-     result=""
-     for __ in [int(n) for n in str(octal)]:
-             result+=permission[__]
-     return result
+import sys
+import ftplib
+
+def decode(dirList):
+    data = ""
+    #if Method is 7-bit discard files if first 3 bits are set and
+    #remove first 3 bits of file permissions. Else take 10bits from each list element
+    if METHOD == '7-bit' :                
+        for line in dirList:
+            if(line[0:3] == "---"):
+                data += line[3:10]
+    elif METHOD == '10-bit' :
+        data = ""
+        for line in dirList:
+            data += line[0:10]        
+    stringMessage = ""
+    # replace d,l,r,w,x with 1 and - with 0
+    data = data.replace('-','0').replace('d','1').replace('l','1').replace('r','1').replace('w','1').replace('x','1')
+    #convert 7 bit binary value to character
+    for index in range(0, len(data),7):
+        if index+7 < len(data):
+            temp = data[index:index+7]
+        else:
+            temp = data[index:]
+        temp = int(temp,2)
+        if temp == 8:
+            stringMessage = stringMessage[:-1]
+        else:
+            stringMessage += chr(temp)
+    return stringMessage
+
+try:
+    cwd = ""
+    METHOD ="7-bit" #change to 10-bit for 10-bit decoding
+    if len(sys.argv) == 3:
+        if sys.argv[1]!= '7-bit' and sys.argv[1]!= '10-bit':
+            print("Please pass either 7-bit or 10bit as first arguement for decoding")
+            exit(0)
+        #METHOD = sys.argv[1]
+        #cwd = sys.argv[2]
+    ipAddr = '192.168.0.11'
+    port = 21
+    username = 'patgarret'
+    password = 'BillyTheKid'
+    USE_PASSIVE = True
+    ftp = ftplib.FTP()
+    ftp.connect(ipAddr, port)
+    ftp.login(username, password)
+    ftp.set_pasv(USE_PASSIVE)
+    ftp.cwd(cwd)
+    dirList = []
+    ftp.dir(dirList.append) #get file attributes of given directory files and append into list
+    print(decode(dirList))
+    ftp.quit()
+except ftplib.all_errors as e:
+    print(e)  #handle wrong directory exception here
  
-filename="/var/prison/home/billythekid/"
-z=os.listdir(filename)
-z=sorted(z)
-ans = ""
-#getting file permissions from each file in the folder
-for f in z:
-     a = os.stat("/var/prison/home/billythekid/"+f).st_mode
-     b=oct(a)
-     if str(b[:4])=="0o10":
-             c=oct_to_str(b[-3:])
-             c="-"+c
-     else:
-             c=oct_to_str(b[-3:])
-     #accepting the file permissions starting with '---'
-     if c[0:3]=="---":
-             ans+=c
-     else:
-             continue
-
-#converting - to 0 and others to 1
-p=""
-for d in ans:
-     if d =="-":
-             p+='0'
-     else:
-             p+='1'
-w=""
-for i in range(0,len(p),10):
-     w+=chr(int(p[i:i+10],2))
-
-print(w)
-
