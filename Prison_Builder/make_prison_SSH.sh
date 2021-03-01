@@ -44,7 +44,7 @@ cp -r /lib/* /var/prison/lib
 
 source ~/.bashrc
 
-echo PRISON BREAK CREATED
+echo BILLYTHEKID PRISON CREATED
 
 apt install openssh-server
 

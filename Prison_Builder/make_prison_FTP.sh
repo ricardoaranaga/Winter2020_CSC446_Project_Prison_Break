@@ -39,6 +39,8 @@ echo chroot_local_user=YES >> /etc/vsftpd.conf
 echo chroot_list_enable=YES >> /etc/vsftpd.conf
 echo allow_writeable_chroot=YES >> /etc/vsftpd.conf
 echo chroot_list_file=/etc/vsftpd.chroot_list >> /etc/vsftpd.conf
+
+# restart servers
 systemctl restart vsftpd
 systemctl restart vsftpd.service
 

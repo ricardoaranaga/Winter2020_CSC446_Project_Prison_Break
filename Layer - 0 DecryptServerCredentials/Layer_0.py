@@ -10,7 +10,7 @@ for i in range(0,9):
 lis.append('0')
 
 header =  "The credentials for TCP server are encrypted using a new pattern/method by nerd jailer and to decrypt it many prisoners tried but failed. \nOnly 4 prison escapees got success in decoding it. One of them left a clue i.e.., each character represents either 0 or 1. Get least significant bits (LSB) in binary ASCII value of each character and combined value is the key to this Puzzle."
-msg = "The key is embedded in a timing covert channel. Connect to server with ip address aaa.bbb.ccc.ddd with port number IJKLM. Decode the covert message. Hurry up! Guards may wakeup anytime! ....... By the way, You'll have to answer 3 riddles in the begining. Prepare to \'client_socket.recv(2048)\' and \'client.socket.send()\' three times (for loop)"
+msg = "SECRET msg: The key is embedded in a TIMEing covert channel. Connect to LOUISIANA TECH server NAME with ip address aaa.bbb.ccc.ddd with port number IJKLM. Decode the covert SILENCE message. Don't AGE, hurry up! 60 GOURD Guards may wakeup anytime! ....... By the way, You'll have to answer 3 riddles in the begining of the next layer. ADVICE: Prepare to \'client_socket.recv(2048)\' And \'ClienT.socket.send()\' three times (for loop)"
 
 #get ASCII value of each character in the message
 lis2=""
