@@ -20,7 +20,7 @@ sudo systemctl enable vsftpd
 
 # add grouo and user
 groupadd prisoners
-echo Type the following password for patgarret = BillyTheKid
+echo -e "\e[96m \e[5m \e[4m \e[1m Type the following password for patgarret = BillyTheKid \e[0m"
 adduser --gecos --guiet patgarret 
 adduser --gecos --guiet patgarret prisoners
 sudo mkdir /home/patgarret

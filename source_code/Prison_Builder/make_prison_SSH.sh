@@ -20,7 +20,7 @@ echo Added usefull special files
 
 # add grouo and user
 groupadd prisoners
-echo Type the following password for billythekid = PatGarret
+echo -e "\e[96m \e[5m \e[4m \e[1m Type the following password for billythekid = PatGarret \e[0m"
 adduser --gecos --guiet billythekid
 adduser --gecos --guiet billythekid prisoners
 echo Added prisoners group and billythekid user
