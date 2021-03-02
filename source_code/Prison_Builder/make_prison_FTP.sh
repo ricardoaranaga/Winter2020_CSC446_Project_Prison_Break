@@ -20,13 +20,15 @@ sudo systemctl enable vsftpd
 
 # add grouo and user
 groupadd prisoners
-adduser patgarret
-adduser patgarret prisoners
+echo Type the following password for patgarret = BillyTheKid
+adduser --gecos --guiet patgarret 
+adduser --gecos --guiet patgarret prisoners
 sudo mkdir /home/patgarret
+sudo mkdir /var/ftp/patgarret
 echo Added prisoners group and patgarret user
 
 # change home path
-mount --bind /var/home/patgarret /var/ftp/patgarret/
+mount --bind /home/patgarret /var/ftp/patgarret/
 usermod -d /var/ftp/patgarret/ patgarret
 
 # allow incomming connections

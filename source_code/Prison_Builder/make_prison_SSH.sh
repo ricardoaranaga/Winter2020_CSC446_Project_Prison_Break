@@ -9,7 +9,7 @@ rm -rf /var/prison
 deluser --remove-home billythekid
 delgroup --only-if-empty prisoners
 
-./jail.sh /bin/{ls,cat,echo,bash,mkdir,touch} /usr/bin/{vim,whoami,scp} /etc/hosts
+./source_code/Prison_Builder/jail.sh /bin/{ls,cat,echo,bash,mkdir,touch} /usr/bin/{vim,whoami,scp} /etc/hosts
 
 #add useful “special” files:
 mkdir /var/prison/dev
@@ -20,8 +20,9 @@ echo Added usefull special files
 
 # add grouo and user
 groupadd prisoners
-adduser billythekid
-adduser billythekid prisoners
+echo Type the following password for billythekid = PatGarret
+adduser --gecos --guiet billythekid
+adduser --gecos --guiet billythekid prisoners
 echo Added prisoners group and billythekid user
 
 cp /etc/passwd /etc/group /var/prison/etc/
